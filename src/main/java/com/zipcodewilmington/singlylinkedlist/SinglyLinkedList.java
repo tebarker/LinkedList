@@ -1,5 +1,7 @@
 package com.zipcodewilmington.singlylinkedlist;
 
+import java.util.LinkedList;
+
 /**
  * Created by leon on 1/10/18.
  */
@@ -8,13 +10,13 @@ package com.zipcodewilmington.singlylinkedlist;
 // this is what an empty linked list looks like List<Integer> intList = new LinkedList<>();
 // A singly linked list is one where each node holds a single reference to the next node.
 //Node possibly refers to each object/element inside the list...
-public class SinglyLinkedList {
+public class SinglyLinkedList <T extends Comparable<T>> {
     Node head;
     Node tail; //the last node has a reference to null so if tail == null that's your last node
 
 
     Node prev;
-    Integer index;
+    //Integer index;
     Integer size;
     Integer count;
 
@@ -29,8 +31,9 @@ public class SinglyLinkedList {
         //head.next refers to the second element. head.next.next refers to the 3rd element and so on.
         private final Node node;
         public Node prev;
+        public Node item;
         Node next;
-        Node item;
+
         public Node(Node node) {
             this.node = node;
             this.next = null;
@@ -49,20 +52,62 @@ public class SinglyLinkedList {
         }
 
         }
-    public Node remove(Integer index){
-        Node element = head.item;
-        Node next = head.next;
-        head.item = null;
-        head.next = null;
-        if (next == null)
-            tail = null;
-        else
-            next.prev = null;
-        size--;
-        count++;
-        return element;
+    public void remove(Integer index){
+        Node currentNode = head;
+        Node nextNode;
+
+        if (currentNode != null && index == 0){
+            head = currentNode.next;
+
+            for (int i = 0; i < index - 1; i++) {
+                currentNode = currentNode.next;
+                nextNode = currentNode.next;
+                currentNode.next = nextNode;
+            }
+            this.size--;
+        }
     }
+
+     public <T> boolean contains (T element){
+      Node current = head;
+      int index = 0;
+      while (current != null){
+          if (current.node.equals(element)){
+              return true;
+          }
+          current = current.next;
+
+          index++;
+      }
+
+         return false;
+      }
+
+    public <T> int find(Object o) {
+        int index = 0;
+        if (o == null) {
+            for (Node x = head; x != null; x = x.next) {
+                if (x.item == null)
+                    return index;
+                index++;
+            }
+        } else {
+            for (Node x = head; x != null; x = x.next) {
+                if (o.equals(x.item))
+                    return index;
+                index++;
+            }
+        }
+        return -1;
     }
+
+
+
+}
+
+
+
+
 
 
 
